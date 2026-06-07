@@ -1,63 +1,17 @@
-# Predictive Credit Limit Optimization Engine
+# Credit Limit Optimization Engine
 
-## 💰 Business Impact Summary
+## Overview
+This project builds a data pipeline that uses machine learning to dynamically optimize credit card limits. Using a Random Forest model, it calculates continuous risk probabilities for each account. This allows a bank to safely increase credit limits for high-value spenders to capture more transactional revenue, while proactively cutting limits for high-risk accounts to prevent default losses.
 
-- **Total Portfolio Value Generated:** $83,477.39 (Annualized)
-- **Risk Capital Insulated (Loss Prevention):** $71,775.00
-- **Projected Annual Swipe Revenue Unlocked:** $11,702.39
-- **Portfolio Action Distribution:** 2,243 Limit Increases | 70 Limit Slashes | 6,637 Maintained
+## Pipeline Steps
+1. **Data Cleaning:** Removed duplicate rows, handled missing values via column medians, and corrected absolute formatting errors.
+2. **Target Engineering:** Defined a custom credit risk flag based on high card utilization and low payment activity.
+3. **Machine Learning:** Trained a Random Forest Classifier to output continuous default probabilities, intentionally removing leaking features to prevent data cheating.
+4. **Optimization Engine:** Ran a custom Python loop to dynamically scale limits up by 30% for high-value safe spenders, slash them by 50% for high-risk flags, or maintain baseline levels.
+5. **SQL Ingestion & Audit:** Loaded the final results directly into an in-memory SQLite database table to run structured group-by queries, verifying data consistency between the Python pipeline and the database layer.
 
----
-
-## 📋 Project Overview
-
-This repository contains a production-ready, end-to-end data stack that transforms a raw, uncalibrated portfolio of ~9,000 credit card accounts into an automated capital optimization engine.
-
-Instead of relying on rigid, hardcoded rules or basic binary predictions, this system implements a **Supervised Machine Learning Classification Pipeline** to score continuous default probabilities. A custom business logic layer then maps these probabilities to dynamic credit limit adjustments—simultaneously maximizing transactional interchange fees for safe spenders and minimizing credit exposure for high-risk accounts.
-
----
-
-## 🛠️ Technical Architecture & Data Stack
-
-The entire project is structured into an optimized, unified pipeline across a single production environment:
-
-1. **Data Engineering & Quality Assurance (Python / Pandas):**
-   - Implemented robust data cleansing pipelines to eliminate structural anomalies, drop identical server logging duplicates, and handle missing values via column medians.
-   - Handled formatting distortions by regularizing transactional fields into absolute positive values.
-
-2. **Machine Learning Operations (Scikit-Learn Classifier):**
-   - Engineered a custom banking risk target variable mimicking credit default indicators.
-   - Purged feature sets of driving metrics to eliminate **Data Leakage** and ensure real-world model credibility.
-   - Trained a **100-Tree Random Forest Classifier** to navigate heavily imbalanced portfolio data and extract granular, continuous mathematical risk probabilities (`model.predict_proba`).
-
-3. **Explainability & Governance (Matplotlib / Seaborn):**
-   - Extracted model feature importances to satisfy banking regulatory clarity requirements, proving that cash-advance borrowing and baseline utilization metrics dictated risk scores.
-   - Compiled an executive graphical dashboard charting portfolio action allocations, risk curves, and capital boundary shifts.
-
-4. **Data Persistence & Relational Verification (SQL / SQLite3):**
-   - Instantiated an in-memory relational SQL engine and built a structured schema complete with strategic indexing.
-   - Streamed dataframes directly into the database and wrote relational group-by aggregation queries to audit and verify portfolio capital shifts.
-
----
-
-## 📊 Core Portfolio Optimization Logic
-
-The analytical engine executes capital adjustments based on three distinct behavioral cohorts:
-
-| Customer Segment          | Criteria Constraints       | Model Probability | Optimization Action         |
-| :------------------------ | :------------------------- | :---------------- | :-------------------------- |
-| **High-Value Spenders**   | Purchases > $1,000         | Risk Prob < 15%   | **Increase Limit (+30%)**   |
-| **High-Risk Volatiles**   | Over-utilizing limits      | Risk Prob > 50%   | **Slash Limit (-50%)**      |
-| **Stable Core Portfolio** | Standard activity balances | 15% to 50%        | **Maintain Baseline Limit** |
-
----
-
-## 🚀 How To Run the Production Pipeline
-
-### Prerequisites
-
-Ensure your local environment runs Python 3.x via Anaconda with the following libraries configured:
-
-```bash
-pip install pandas numpy scikit-learn matplotlib seaborn
-```
+## Quantifiable Results
+* **Total Portfolio Value Generated:** $83,477.39 (Annualized)
+* **Risk Capital Saved (Loss Prevention):** $71,775.00
+* **New Annual Swipe Revenue Unlocked:** $11,702.39
+* **Portfolio Actions:** 2,243 Increases | 70 Slashes | 6,637 Maintained
