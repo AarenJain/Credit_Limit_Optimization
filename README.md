@@ -1,4 +1,4 @@
-# Credit Limit Optimization Engine
+# Credit Limit Optimization
 
 ## Overview
 This project builds a data pipeline that uses machine learning to dynamically optimize credit card limits. Using a Random Forest model, it calculates continuous risk probabilities for each account. This allows a bank to safely increase credit limits for high-value spenders to capture more transactional revenue, while proactively cutting limits for high-risk accounts to prevent default losses.
